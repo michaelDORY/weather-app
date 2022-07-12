@@ -1,13 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FetchedCityWeather } from '../../types'
 
-interface CityState extends FetchedCityWeather {
-  geo: {
-    lat: number
-    lon: number
-  }
-  name: string
-}
+export interface CityState extends FetchedCityWeather {}
 
 const initialState: CityState[] = []
 

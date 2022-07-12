@@ -14,7 +14,12 @@ const Layout: FC<Props> = ({ children }) => {
     }
   }
   return (
-    <Box>
+    <Box
+      sx={{
+        background: 'blue',
+        minHeight: '100vh',
+      }}
+    >
       <video
         autoPlay
         muted
@@ -27,7 +32,9 @@ const Layout: FC<Props> = ({ children }) => {
           bottom: 0,
           right: 0,
           left: 0,
-          objectFit: 'contain',
+          objectFit: 'cover',
+          zIndex: 0,
+          opacity: 0.5,
         }}
       >
         <source src={VideoBackgroundPath} type='video/webm' />

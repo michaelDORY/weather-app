@@ -1,9 +1,12 @@
-import { Box, Card, CardContent, CardHeader, Container, Stack, Typography } from '@mui/material'
+import { Box, Container, Stack } from '@mui/material'
 import React from 'react'
+import { useAppSelector } from '../../hooks'
 import AddCityForm from '../AddCityForm'
 import CardList from '../CardList'
+import CityWeatherCard from '../CityWeatherCard'
 
 const MainPage = () => {
+  const cities = useAppSelector((state) => state.citiesReducer)
   return (
     <Box>
       <Container>
@@ -11,14 +14,16 @@ const MainPage = () => {
           <AddCityForm />
         </Stack>
         <CardList>
-          <Card>
-            <CardHeader>
-              <Typography>Hello</Typography>
-            </CardHeader>
-            <CardContent>
-              <Typography>Nice</Typography>
-            </CardContent>
-          </Card>
+          {cities.map(({ weather, main, id, name }) => (
+            <CityWeatherCard
+              key={id}
+              icon={weather[0].icon}
+              cityName={name}
+              temperature={main.temp}
+              weatherMain={weather[0].main}
+              weatherDesc={weather[0].description}
+            />
+          ))}
         </CardList>
       </Container>
     </Box>
