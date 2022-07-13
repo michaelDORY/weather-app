@@ -10,20 +10,45 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { deleteCity, updateCity } from '../redux/reducers/citiesSlice'
+import { useGetCityWeatherQuery } from '../redux/services/weather'
 import DynamicSvgIcon from './ui/DynamicSvgIcon'
 
 interface Props {
   cityName: string
-  temperature: number
-  weatherMain: string
-  weatherDesc: string
-  icon: string
 }
 
 const CityWeatherCard: FC<Props> = (props) => {
-  const { cityName, weatherMain, weatherDesc, icon, temperature } = props
-  const iconName = icon.slice(0, icon.length - 1)
+  // const theme = useTheme()
+  const { cityName } = props
+  const dispatch = useAppDispatch()
+  const cities = useAppSelector((state) => state.citiesReducer)
+  const { data, isLoading, error, refetch } = useGetCityWeatherQuery(cityName)
+
+  useEffect(() => {
+    console.log('useEffect')
+    if (data) {
+      const indexOfCity = cities.findIndex((item) => item.id === data.id)
+      if (indexOfCity !== -1) {
+        updateCity(data)
+      }
+    }
+  }, [data])
+
+  if (isLoading) {
+    //  return <Rings color={theme.palette.primary.main}
+    //  ariaLabel='loading-indicator' />
+
+    return <></>
+  }
+
+  if (error) return <></>
+
+  const { weather, main, name, id } = data!
+  const fetchedIconName = weather[0].icon
+  const iconName = fetchedIconName.slice(0, fetchedIconName.length - 1)
 
   return (
     <Card
@@ -48,19 +73,19 @@ const CityWeatherCard: FC<Props> = (props) => {
         <CardContent>
           <Stack direction='row' justifyContent='space-between' alignItems='center' spacing={2}>
             <Typography noWrap gutterBottom variant='h4' component='h3'>
-              {cityName}
+              {name}
             </Typography>
             <Typography variant='h4' color='primary'>
-              {temperature}
+              {Math.round(main.temp)}&#176;C
             </Typography>
           </Stack>
           <Stack direction='row' justifyContent='space-between' alignItems='center' spacing={2}>
             <Box>
               <Typography variant='body1' color='text.secondary'>
-                {weatherMain}
+                {weather[0].main}
               </Typography>
               <Typography variant='body2' color='text.secondary'>
-                {weatherDesc}
+                {weather[0].description}
               </Typography>
             </Box>
             <Stack direction='row' justifyContent='end' alignItems='center' spacing={2}>
@@ -71,7 +96,7 @@ const CityWeatherCard: FC<Props> = (props) => {
                 onMouseDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation()
-                  event.preventDefault()
+                  dispatch(deleteCity(id))
                 }}
               >
                 <ClearIcon />
@@ -83,7 +108,7 @@ const CityWeatherCard: FC<Props> = (props) => {
                 onMouseDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation()
-                  event.preventDefault()
+                  refetch()
                 }}
               >
                 <UpdateIcon />

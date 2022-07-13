@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { addCityIdToLS, deleteCityIdFromLS } from '../../helpers/localStorage'
 import { FetchedCityWeather } from '../../types'
 
 export interface CityState extends FetchedCityWeather {}
@@ -10,17 +11,27 @@ export const citiesSlice = createSlice({
   initialState,
   reducers: {
     addCity: (state, action: PayloadAction<CityState>) => {
-      state.push(action.payload)
+      addCityIdToLS(action.payload.id)
+      const suchCity = state.find((item) => item.id === action.payload.id)
+      return suchCity ? state : [...state, action.payload]
     },
     setCities: (state, action: PayloadAction<CityState[]>) => {
-      state = action.payload
+      return action.payload
+    },
+    deleteCity: (state, action: PayloadAction<number | string>) => {
+      deleteCityIdFromLS(action.payload)
+      return state.filter((item) => item.id !== action.payload)
+    },
+    updateCity: (state, action: PayloadAction<CityState>) => {
+      const indexOfCity = state.findIndex((item) => item.id === action.payload.id)
+      if (indexOfCity !== -1) {
+        state[indexOfCity] = action.payload
+        return state
+      }
     },
   },
 })
 
-export const { addCity, setCities } = citiesSlice.actions
-
-// Other code such as selectors can use the imported `RootState` type
-// export const selectCount = (state: RootState) => state.counter.value
+export const { addCity, setCities, deleteCity, updateCity } = citiesSlice.actions
 
 export default citiesSlice.reducer

@@ -8,11 +8,12 @@ import { useGetCityWeatherQuery } from '../redux/services/weather'
 const AddCityForm: FC = () => {
   const [city, setCity] = useState<string | null>(null)
   const [value, setValue] = useState('')
+  const [isInitial, setIsInitial] = useState(true)
   const {
     error: weatherError,
     data: weatherData,
     isLoading: isLoadingWeather,
-  } = useGetCityWeatherQuery(city ?? 'London')
+  } = useGetCityWeatherQuery(city ?? '')
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const AddCityForm: FC = () => {
     e.preventDefault()
     setValue('')
     setCity(value)
+    setIsInitial(false)
   }
 
   return (
@@ -34,12 +36,12 @@ const AddCityForm: FC = () => {
           <TextField
             value={value}
             label='City'
-            helperText={weatherError && 'Incorrect name of city'}
-            error={!!weatherError}
+            helperText={weatherError && !isInitial && 'Incorrect name of city'}
+            error={!!weatherError && !isInitial}
             sx={{ position: 'relative' }}
             onChange={(e) => setValue(e.target.value)}
           />
-          <LoadingButton loading={isLoadingWeather} variant='contained' type='submit'>
+          <LoadingButton loading={isLoadingWeather && !isInitial} variant='contained' type='submit'>
             Add city
           </LoadingButton>
         </Stack>
