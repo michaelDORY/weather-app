@@ -5,14 +5,16 @@ import type { FetchedCityWeather } from '../../types'
 export const cityWeatherApi = createApi({
   reducerPath: 'cityWeatherApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${WEATHER_BASE_URL}data/2.5/weather` }),
+  tagTypes: ['FetchedCityWeather'],
   endpoints: (builder) => ({
     getCityWeather: builder.query<FetchedCityWeather, string>({
       query: (cityName) => {
-        return `?q=${cityName}&appid=${process.env.REACT_APP_API_KEY}`
+        return `?q=${cityName}&units=metric&appid=${process.env.REACT_APP_API_KEY}`
       },
     }),
     getCitiesWeather: builder.query<FetchedCityWeather, (string | number)[]>({
       query: (arr) => `/group?id=${arr.toString()}&appid=${process.env.REACT_APP_API_KEY}`,
+      providesTags: ['FetchedCityWeather'],
     }),
   }),
 })

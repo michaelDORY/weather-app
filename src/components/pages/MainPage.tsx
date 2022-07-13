@@ -1,4 +1,4 @@
-import { Box, Container, Stack } from '@mui/material'
+import { Box, Container } from '@mui/material'
 import React from 'react'
 import { useAppSelector } from '../../hooks'
 import AddCityForm from '../AddCityForm'
@@ -10,10 +10,8 @@ const MainPage = () => {
   return (
     <Box>
       <Container>
-        <Stack>
-          <AddCityForm />
-        </Stack>
-        <CardList>
+        <AddCityForm />
+        <CardList styles={{ mt: 4 }}>
           {cities.map(({ weather, main, id, name }) => (
             <CityWeatherCard
               key={id}

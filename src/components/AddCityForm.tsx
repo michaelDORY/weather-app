@@ -1,5 +1,6 @@
-import { Button, Stack, TextField } from '@mui/material'
-import React, { FC, useEffect, useState } from 'react'
+import { LoadingButton } from '@mui/lab'
+import { Paper, Stack, TextField } from '@mui/material'
+import React, { FC, FormEvent, useEffect, useState } from 'react'
 import { useAppDispatch } from '../hooks'
 import { addCity } from '../redux/reducers/citiesSlice'
 import { useGetCityWeatherQuery } from '../redux/services/weather'
@@ -20,15 +21,30 @@ const AddCityForm: FC = () => {
     }
   }, [weatherData])
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    setValue('')
+    setCity(value)
+  }
+
   return (
-    <>
-      <Stack>
-        <TextField value={value} onChange={(e) => setValue(e.target.value)} />
-        <Button onClick={() => setCity(value)}>Add city</Button>
-      </Stack>
-      {isLoadingWeather && <h1>Loading...</h1>}
-      {weatherError && <h1>error</h1>}
-    </>
+    <Paper sx={{ paddingY: 4 }} elevation={24}>
+      <form onSubmit={handleSubmit}>
+        <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
+          <TextField
+            value={value}
+            label='City'
+            helperText={weatherError && 'Incorrect name of city'}
+            error={!!weatherError}
+            sx={{ position: 'relative' }}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <LoadingButton loading={isLoadingWeather} variant='contained' type='submit'>
+            Add city
+          </LoadingButton>
+        </Stack>
+      </form>
+    </Paper>
   )
 }
 
