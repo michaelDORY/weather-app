@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { deleteCity, updateCity } from '../redux/reducers/citiesSlice'
+import { deleteCity, selectCity, updateCity } from '../redux/reducers/citiesSlice'
 import { useGetCityWeatherQuery } from '../redux/services/weather'
 import DynamicSvgIcon from './ui/DynamicSvgIcon'
 
@@ -21,34 +21,27 @@ interface Props {
 }
 
 const CityWeatherCard: FC<Props> = (props) => {
-  // const theme = useTheme()
   const { cityName } = props
   const dispatch = useAppDispatch()
-  const cities = useAppSelector((state) => state.citiesReducer)
+  const { cities } = useAppSelector((state) => state.citiesReducer)
   const { data, isLoading, error, refetch } = useGetCityWeatherQuery(cityName)
 
   useEffect(() => {
     console.log('useEffect')
     if (data) {
+      console.log('if (data)')
       const indexOfCity = cities.findIndex((item) => item.id === data.id)
       if (indexOfCity !== -1) {
+        console.log('if (indexOfCity !== -1)')
         updateCity(data)
       }
     }
   }, [data])
 
-  if (isLoading) {
-    //  return <Rings color={theme.palette.primary.main}
-    //  ariaLabel='loading-indicator' />
-
-    return <></>
-  }
-
-  if (error) return <></>
+  if (error || isLoading) return <></>
 
   const { weather, main, name, id } = data!
-  const fetchedIconName = weather[0].icon
-  const iconName = fetchedIconName.slice(0, fetchedIconName.length - 1)
+  const iconName = weather[0].icon
 
   return (
     <Card
@@ -59,7 +52,12 @@ const CityWeatherCard: FC<Props> = (props) => {
         background: 'rgba(21,21,21,0.89)',
       }}
     >
-      <CardActionArea>
+      <CardActionArea
+        onClick={(e) => {
+          e.stopPropagation()
+          dispatch(selectCity(id))
+        }}
+      >
         <CardMedia
           sx={{
             display: 'flex',

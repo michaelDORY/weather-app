@@ -8,14 +8,14 @@ import { useGetCitiesWeatherQuery } from '../../redux/services/weather'
 import AddCityForm from '../AddCityForm'
 import CardList from '../CardList'
 import CityWeatherCard from '../CityWeatherCard'
+import ModalCityWeather from '../ModalCityWeather'
 
 const MainPage = () => {
-  const cities = useAppSelector((state) => state.citiesReducer)
+  const { cities } = useAppSelector((state) => state.citiesReducer)
   const citiesNamesFromLS = useMemo(() => getCitiesIdsFromLS(), [])
   const { data: citiesFromLS, isLoading } = useGetCitiesWeatherQuery(citiesNamesFromLS)
   const dispatch = useAppDispatch()
   const theme = useTheme()
-  console.log('citiesNamesFromLS', citiesNamesFromLS)
 
   useEffect(() => {
     console.log('citiesFromLS', citiesFromLS)
@@ -25,28 +25,31 @@ const MainPage = () => {
   }, [citiesFromLS])
 
   return (
-    <Box>
-      <Container>
-        <AddCityForm />
-        <Box sx={{ paddingY: 5 }}>
-          {isLoading ? (
-            <Stack alignItems='center'>
-              <Rings color={theme.palette.primary.main} ariaLabel='loading-indicator' />
-            </Stack>
-          ) : !cities.length ? (
-            <Typography variant='h4' color='primary' sx={{ textAlign: 'center' }}>
-              Now you don&apos;t have any city(
-            </Typography>
-          ) : (
-            <CardList>
-              {cities.map(({ name, id }) => (
-                <CityWeatherCard key={id} cityName={name} />
-              ))}
-            </CardList>
-          )}
-        </Box>
-      </Container>
-    </Box>
+    <>
+      <Box>
+        <Container>
+          <AddCityForm />
+          <Box sx={{ paddingY: 5 }}>
+            {isLoading ? (
+              <Stack alignItems='center'>
+                <Rings color={theme.palette.primary.main} ariaLabel='loading-indicator' />
+              </Stack>
+            ) : !cities.length ? (
+              <Typography variant='h4' color='primary' sx={{ textAlign: 'center' }}>
+                Now you don&apos;t have any city(
+              </Typography>
+            ) : (
+              <CardList>
+                {cities.map(({ name, id }) => (
+                  <CityWeatherCard key={id} cityName={name} />
+                ))}
+              </CardList>
+            )}
+          </Box>
+        </Container>
+      </Box>
+      <ModalCityWeather />
+    </>
   )
 }
 

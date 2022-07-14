@@ -1,3 +1,7 @@
+export interface ObjectKeys {
+  [key: string]: any
+}
+
 export interface FetchedCityWeather {
   id: string | number
   name: string
@@ -17,3 +21,13 @@ export interface FetchedCityWeather {
     humidity: number
   }
 }
+
+interface FetchedHourlyForecastItem extends FetchedCityWeather {
+  dt_txt: string
+}
+
+export interface FetchedHourlyForecast {
+  list: FetchedHourlyForecastItem[]
+}
+
+export type HourlyForecast = { temp: number; hours: string }[]
