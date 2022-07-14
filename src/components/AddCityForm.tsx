@@ -32,16 +32,25 @@ const AddCityForm: FC = () => {
   return (
     <Paper sx={{ paddingY: 4 }} elevation={24}>
       <form onSubmit={handleSubmit}>
-        <Stack direction='row' spacing={2} justifyContent='center' alignItems='center'>
+        <Stack
+          direction='row'
+          spacing={2}
+          justifyContent='center'
+          alignItems='stretch'
+          sx={{ paddingX: 5 }}
+        >
           <TextField
             value={value}
             label='City'
-            helperText={weatherError && !isInitial && 'Incorrect name of city'}
             error={!!weatherError && !isInitial}
-            sx={{ position: 'relative' }}
             onChange={(e) => setValue(e.target.value)}
           />
-          <LoadingButton loading={isLoadingWeather && !isInitial} variant='contained' type='submit'>
+          <LoadingButton
+            loading={isLoadingWeather && !isInitial}
+            variant='contained'
+            type='submit'
+            sx={{ whiteSpace: 'nowrap' }}
+          >
             Add city
           </LoadingButton>
         </Stack>

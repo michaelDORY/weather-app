@@ -24,8 +24,6 @@ const HourlyChart = () => {
 
   if (error) return <Typography sx={{ textAlight: 'center' }}>Can&apos;t load chart(</Typography>
 
-  console.log(hourlyForecast)
-
   return (
     <ResponsiveContainer height={200} minWidth={200}>
       <BarChart data={hourlyForecast} margin={{ left: -30 }} height={200} width={300}>

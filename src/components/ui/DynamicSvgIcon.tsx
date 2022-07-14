@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import DefaultIcon from 'assets/icons/default-weather-icon.svg'
 
 const DynamicSvgIcon = ({ name, height }: { name: string; height: number }) => {
   const [icon, setIcon] = useState<any>(null)
@@ -11,7 +12,7 @@ const DynamicSvgIcon = ({ name, height }: { name: string; height: number }) => {
   }, [name])
 
   if (!icon) {
-    return <span>X</span>
+    return <img height={height} src={DefaultIcon} alt='icon' />
   }
   return <img height={height} src={icon} alt='icon' />
 }
