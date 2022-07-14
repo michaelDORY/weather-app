@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkweather_app=self.webpackChunkweather_app||[]).push([[962],{1962:function(e,a,c){e.exports=c.p+"static/media/default-weather-icon.cb62453a8c4b1cdcb6ca.svg"}}]);
