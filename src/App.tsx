@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css'
 import MainPage from './components/pages/MainPage'
 import Layout from './components/ui/Layout'
 
