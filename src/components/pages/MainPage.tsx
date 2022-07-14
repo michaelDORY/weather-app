@@ -18,7 +18,6 @@ const MainPage = () => {
   const theme = useTheme()
 
   useEffect(() => {
-    console.log('citiesFromLS', citiesFromLS)
     if (citiesFromLS && citiesFromLS.list.length) {
       dispatch(setCities(citiesFromLS.list))
     }
