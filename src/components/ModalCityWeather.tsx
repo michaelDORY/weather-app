@@ -30,6 +30,7 @@ const ModalCityWeather = () => {
 
   return (
     <Modal
+      data-testid='cityWeatherModal'
       open={!!selectedCity}
       onClose={() => dispatch(unselectCity())}
       aria-labelledby='modal-modal-title'

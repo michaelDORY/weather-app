@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="250d4c1d-9d21-4815-bf48-c372421813c2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/__tests__/CityWeatherCard.test.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/__tests__/MainPage.test.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test_utils/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test_utils/server/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test_utils/server/serverHandlers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddCityForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddCityForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CityWeatherCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CityWeatherCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ModalCityWeather.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ModalCityWeather.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/MainPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/MainPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/DynamicSvgIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/DynamicSvgIcon.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/RowInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/RowInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/citiesSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/citiesSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/store.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="8ccd510c-4f24-4074-9638-02cbb4e43289" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2BwvJMh6Rxty0xGpgKbAe1ihjzJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;js.linters.configure.manually.selectedeslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\Michael\\Desktop\\Job\\Codica\\weather-app\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Michael\\Desktop\\Job\\Codica\\weather-app\\node_modules\\typescript\\lib&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="250d4c1d-9d21-4815-bf48-c372421813c2" name="Changes" comment="" />
+      <created>1657829898055</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1657829898055</updated>
+      <workItem from="1657829903995" duration="4763000" />
+      <workItem from="1657869999812" duration="3536000" />
+      <workItem from="1657873804606" duration="4638000" />
+      <workItem from="1657880140738" duration="25334000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

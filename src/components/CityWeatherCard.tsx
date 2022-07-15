@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState, memo } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { deleteCity, selectCity, updateCity } from '../redux/reducers/citiesSlice'
 import { useGetCityWeatherQuery } from '../redux/services/weather'
@@ -20,27 +20,25 @@ interface Props {
   cityName: string
 }
 
-const CityWeatherCard: FC<Props> = (props) => {
+const CityWeatherCard: FC<Props> = memo((props: Props) => {
   const { cityName } = props
   const dispatch = useAppDispatch()
   const { cities } = useAppSelector((state) => state.citiesReducer)
-  const { data, isLoading, error, refetch } = useGetCityWeatherQuery(cityName)
+  const [isInitial, setIsInitial] = useState(true)
+  const { data, isLoading, refetch } = useGetCityWeatherQuery(isInitial ? '' : cityName)
 
   useEffect(() => {
-    console.log('useEffect')
     if (data) {
-      console.log('if (data)')
       const indexOfCity = cities.findIndex((item) => item.id === data.id)
       if (indexOfCity !== -1) {
-        console.log('if (indexOfCity !== -1)')
         updateCity(data)
       }
     }
   }, [data])
 
-  if (error || isLoading) return <></>
+  if (isLoading) return <div data-testid='loadingCityCard'></div>
 
-  const { weather, main, name, id } = data!
+  const { weather, main, name, id } = cities.find((item) => item.name === cityName)!
   const iconName = weather[0].icon
 
   return (
@@ -53,6 +51,7 @@ const CityWeatherCard: FC<Props> = (props) => {
       }}
     >
       <CardActionArea
+        data-testid='cityWeatherCard'
         onClick={(e) => {
           e.stopPropagation()
           dispatch(selectCity(id))
@@ -88,6 +87,7 @@ const CityWeatherCard: FC<Props> = (props) => {
             </Box>
             <Stack direction='row' justifyContent='end' alignItems='center' spacing={2}>
               <Fab
+                data-testid='deleteCityButton'
                 sx={{ background: 'grey' }}
                 size='small'
                 aria-label='delete'
@@ -106,6 +106,7 @@ const CityWeatherCard: FC<Props> = (props) => {
                 onMouseDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation()
+                  setIsInitial(false)
                   refetch()
                 }}
               >
@@ -117,6 +118,8 @@ const CityWeatherCard: FC<Props> = (props) => {
       </CardActionArea>
     </Card>
   )
-}
+})
+
+CityWeatherCard.displayName = 'CityWeatherCard'
 
 export default CityWeatherCard

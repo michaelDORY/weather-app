@@ -1,5 +1,5 @@
 import { Stack, Typography } from '@mui/material'
-import React, { FC } from 'react'
+import React, { FC, memo } from 'react'
 
 interface Props {
   rowKey: string
@@ -7,7 +7,7 @@ interface Props {
   sx?: object
 }
 
-const RowInfo: FC<Props> = ({ rowKey, value, sx = {} }) => {
+const RowInfo: FC<Props> = memo(({ rowKey, value, sx = {} }: Props) => {
   return (
     <Stack
       alignItems='center'
@@ -19,6 +19,7 @@ const RowInfo: FC<Props> = ({ rowKey, value, sx = {} }) => {
       <Typography>{value}</Typography>
     </Stack>
   )
-}
+})
+RowInfo.displayName = 'RowInfo'
 
 export default RowInfo

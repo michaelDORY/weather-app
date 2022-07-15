@@ -1,11 +1,11 @@
 import { LoadingButton } from '@mui/lab'
 import { Paper, Stack, TextField } from '@mui/material'
-import React, { FC, FormEvent, useEffect, useState } from 'react'
+import React, { FC, FormEvent, memo, useEffect, useState } from 'react'
 import { useAppDispatch } from '../hooks'
 import { addCity } from '../redux/reducers/citiesSlice'
 import { useGetCityWeatherQuery } from '../redux/services/weather'
 
-const AddCityForm: FC = () => {
+const AddCityForm: FC = memo(() => {
   const [city, setCity] = useState<string | null>(null)
   const [value, setValue] = useState('')
   const [isInitial, setIsInitial] = useState(true)
@@ -40,6 +40,7 @@ const AddCityForm: FC = () => {
           sx={{ paddingX: 5 }}
         >
           <TextField
+            data-testid='addingCityInput'
             value={value}
             label='City'
             error={!!weatherError && !isInitial}
@@ -57,6 +58,8 @@ const AddCityForm: FC = () => {
       </form>
     </Paper>
   )
-}
+})
+
+AddCityForm.displayName = 'AddCityForm'
 
 export default AddCityForm

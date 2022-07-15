@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import DefaultIcon from 'assets/icons/default-weather-icon.svg'
 
-const DynamicSvgIcon = ({ name, height }: { name: string; height: number }) => {
+const DynamicSvgIcon = memo(({ name, height }: { name: string; height: number }) => {
   const [icon, setIcon] = useState<any>(null)
 
   useEffect(() => {
@@ -15,6 +15,7 @@ const DynamicSvgIcon = ({ name, height }: { name: string; height: number }) => {
     return <img height={height} src={DefaultIcon} alt='icon' />
   }
   return <img height={height} src={icon} alt='icon' />
-}
+})
+DynamicSvgIcon.displayName = 'DynamicSvgIcon'
 
 export default DynamicSvgIcon

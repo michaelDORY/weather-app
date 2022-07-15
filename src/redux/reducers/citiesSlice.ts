@@ -15,7 +15,7 @@ const initialState: ICitiesSliceState = {
 }
 
 export const citiesSlice = createSlice({
-  name: 'city',
+  name: 'cities',
   initialState,
   reducers: {
     addCity: (state, action: PayloadAction<CityState>) => {

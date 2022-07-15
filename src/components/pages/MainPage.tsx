@@ -29,9 +29,13 @@ const MainPage = () => {
         <Container>
           <AddCityForm />
           <Box sx={{ paddingY: 5 }}>
-            {isLoading ? (
+            {isLoading && !cities.length ? (
               <Stack alignItems='center'>
-                <Rings color={theme.palette.primary.main} ariaLabel='loading-indicator' />
+                <Rings
+                  data-testid='loading-indicator'
+                  color={theme.palette.primary.main}
+                  ariaLabel='loading-indicator'
+                />
               </Stack>
             ) : !cities.length ? (
               <Typography variant='h4' color='primary' sx={{ textAlign: 'center' }}>
