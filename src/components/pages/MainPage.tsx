@@ -1,27 +1,24 @@
-import { Box, Container, Stack, Typography, useTheme } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import React, { useEffect, useMemo } from 'react'
-import { Rings } from 'react-loader-spinner'
-import { getCitiesIdsFromLS } from '../../helpers/localStorage'
+import { getCitiesNamesFromLS } from '../../helpers/localStorage'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { setCities } from '../../redux/reducers/citiesSlice'
-import { useGetCitiesWeatherQuery } from '../../redux/services/weather'
 import AddCityForm from '../AddCityForm'
 import CardList from '../CardList'
 import CityWeatherCard from '../CityWeatherCard'
 import ModalCityWeather from '../ModalCityWeather'
 
 const MainPage = () => {
-  const { cities } = useAppSelector((state) => state.citiesReducer)
-  const citiesNamesFromLS = useMemo(() => getCitiesIdsFromLS(), [])
-  const { data: citiesFromLS, isLoading } = useGetCitiesWeatherQuery(citiesNamesFromLS)
+  const { cities, shouldBeAdded } = useAppSelector((state) => state.citiesReducer)
+  const allCities = useMemo(
+    () => (shouldBeAdded ? [...cities, shouldBeAdded] : cities),
+    [cities, shouldBeAdded],
+  )
+  const citiesNamesFromLS = useMemo(() => getCitiesNamesFromLS(), [])
   const dispatch = useAppDispatch()
-  const theme = useTheme()
-
   useEffect(() => {
-    if (citiesFromLS && citiesFromLS.list.length) {
-      dispatch(setCities(citiesFromLS.list))
-    }
-  }, [citiesFromLS])
+    dispatch(setCities(citiesNamesFromLS))
+  }, [])
 
   return (
     <>
@@ -29,22 +26,14 @@ const MainPage = () => {
         <Container>
           <AddCityForm />
           <Box sx={{ paddingY: 5 }}>
-            {isLoading && !cities.length ? (
-              <Stack alignItems='center'>
-                <Rings
-                  data-testid='loading-indicator'
-                  color={theme.palette.primary.main}
-                  ariaLabel='loading-indicator'
-                />
-              </Stack>
-            ) : !cities.length ? (
+            {!allCities.length ? (
               <Typography variant='h4' color='primary' sx={{ textAlign: 'center' }}>
                 Now you don&apos;t have any city(
               </Typography>
             ) : (
               <CardList>
-                {cities.map(({ name, id }) => (
-                  <CityWeatherCard key={id} cityName={name} />
+                {allCities.map((name, index) => (
+                  <CityWeatherCard key={index} cityName={name} />
                 ))}
               </CardList>
             )}

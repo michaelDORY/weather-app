@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { addCityIdToLS, deleteCityIdFromLS } from '../../helpers/localStorage'
+import { addCityNameToLS, deleteCityNameFromLS } from '../../helpers/localStorage'
 import { FetchedCityWeather } from '../../types'
 
 export interface CityState extends FetchedCityWeather {}
 
 interface ICitiesSliceState {
-  cities: CityState[]
+  shouldBeAdded: null | string
+  cities: string[]
   selectedCity: null | CityState
 }
 
 const initialState: ICitiesSliceState = {
+  shouldBeAdded: null,
   cities: [],
   selectedCity: null,
 }
@@ -18,34 +20,39 @@ export const citiesSlice = createSlice({
   name: 'cities',
   initialState,
   reducers: {
-    addCity: (state, action: PayloadAction<CityState>) => {
-      addCityIdToLS(action.payload.id)
+    setShouldBeAdded: (state, action: PayloadAction<string>) => {
+      state.shouldBeAdded = action.payload
+      return state
+    },
+    clearShouldBeAdded: (state) => {
+      state.shouldBeAdded = null
+      return state
+    },
+    addCity: (state, action: PayloadAction<string>) => {
       const { cities } = state
-      const suchCity = cities.find((item) => item.id === action.payload.id)
-      !suchCity && cities.push(action.payload)
-      return state
-    },
-    setCities: (state, action: PayloadAction<CityState[]>) => {
-      state.cities = action.payload
-      return state
-    },
-    deleteCity: (state, action: PayloadAction<number | string>) => {
-      deleteCityIdFromLS(action.payload)
-      state.cities = state.cities.filter((item) => item.id !== action.payload)
-      return state
-    },
-    updateCity: (state, action: PayloadAction<CityState>) => {
-      const { cities } = state
-      const indexOfCity = cities.findIndex((item) => item.id === action.payload.id)
-      if (indexOfCity !== -1) {
-        state.cities[indexOfCity] = action.payload
+      const isSuchCity = cities.includes(action.payload)
+      if (!isSuchCity) {
+        addCityNameToLS(action.payload)
+        cities.push(action.payload)
         return state
       }
     },
-    selectCity: (state, action: PayloadAction<number | string>) => {
+    setCities: (state, action: PayloadAction<string[]>) => {
+      state.cities = action.payload
+      return state
+    },
+    deleteCity: (state, action: PayloadAction<string>) => {
+      deleteCityNameFromLS(action.payload)
+      state.cities = state.cities.filter((name) => name !== action.payload)
+      return state
+    },
+    selectCity: (state, action: PayloadAction<CityState>) => {
       const { cities } = state
-      const city = cities.find((item) => item.id === action.payload)
-      if (city) state.selectedCity = city
+      const isSuchCity = cities.includes(action.payload.name)
+      if (isSuchCity) {
+        state.selectedCity = action.payload
+        return state
+      }
     },
     unselectCity: (state) => {
       state.selectedCity = null
@@ -54,7 +61,14 @@ export const citiesSlice = createSlice({
   },
 })
 
-export const { addCity, setCities, deleteCity, updateCity, selectCity, unselectCity } =
-  citiesSlice.actions
+export const {
+  clearShouldBeAdded,
+  setShouldBeAdded,
+  addCity,
+  setCities,
+  deleteCity,
+  selectCity,
+  unselectCity,
+} = citiesSlice.actions
 
 export default citiesSlice.reducer

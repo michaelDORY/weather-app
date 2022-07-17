@@ -1,9 +1,11 @@
 import { combineReducers, configureStore, PreloadedState } from '@reduxjs/toolkit'
 import citiesReducer from './reducers/citiesSlice'
+import globalReducer from './reducers/globalSlice'
 import { cityWeatherApi } from './services/weather'
 
 const rootReducer = combineReducers({
   citiesReducer,
+  globalReducer,
   [cityWeatherApi.reducerPath]: cityWeatherApi.reducer,
 })
 

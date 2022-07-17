@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, fireEvent, waitFor } from '@testing-library/react'
 import MainPage from '../components/pages/MainPage'
-import { addCity, CityState } from '../redux/reducers/citiesSlice'
+import { addCity } from '../redux/reducers/citiesSlice'
 import { setupStore } from '../redux/store'
 import { renderWithProviders } from '../test_utils'
 import { server } from 'test_utils/server'
@@ -13,13 +13,6 @@ beforeAll(() => {
 afterAll(() => {
   server.close()
 })
-
-const initialCity: CityState = {
-  weather: [{ id: 12, main: 'Sun', icon: '10n', description: 'sun' }],
-  name: 'London',
-  main: { temp: 100, temp_max: 120, temp_min: 90, feels_like: 100, humidity: 52 },
-  id: 1,
-}
 
 describe('MainPage', () => {
   test('Contains form for adding city', () => {
@@ -36,11 +29,9 @@ describe('MainPage', () => {
     fireEvent.change(input!, { target: { value: 'notACity' } })
     fireEvent.click(submitButton)
 
-    expect(await screen.getByTestId(/rings-loading/)).toBeInTheDocument()
-
-    await waitFor(() => {
-      expect(document.getElementsByClassName('Mui-error')[0]).toBeInTheDocument()
-    })
+    expect(await screen.findByTestId(/loadingCityCard/i)).toBeInTheDocument()
+    expect(screen.queryByText(/notACity/i)).not.toBeInTheDocument()
+    expect(await screen.findByText(/incorrect/i)).toBeInTheDocument()
   })
 
   test('Contains card with added city', async () => {
@@ -51,25 +42,21 @@ describe('MainPage', () => {
     fireEvent.change(input!, { target: { value: 'London' } })
     fireEvent.click(submitButton)
 
-    expect(await screen.getByTestId(/rings-loading/)).toBeInTheDocument()
+    expect(await screen.findByTestId(/loadingCityCard/i)).toBeInTheDocument()
 
-    await waitFor(() => {
-      expect(screen.getByText(/100/i)).toBeInTheDocument()
-      expect(screen.getAllByText(/sun/i)[0]).toBeInTheDocument()
-      expect(screen.getByText(/london/i)).toBeInTheDocument()
-    })
+    expect(await screen.findByText(/100/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/sun/i)[0]).toBeInTheDocument()
+    expect(screen.getByText(/london/i)).toBeInTheDocument()
   })
 
   test('City is deleted after click on delete button', async () => {
     const store = setupStore()
-    store.dispatch(addCity(initialCity))
+    store.dispatch(addCity('London'))
 
     renderWithProviders(<MainPage />, { store })
 
-    await waitFor(() => {
-      expect(screen.getByTestId('cityWeatherCard')).toBeInTheDocument()
-      expect(screen.getByText(/london/i)).toBeInTheDocument()
-    })
+    expect(await screen.findByTestId('cityWeatherCard')).toBeInTheDocument()
+    expect(screen.getByText(/london/i)).toBeInTheDocument()
 
     const deleteButton = screen.getByTestId('deleteCityButton')
 
@@ -81,11 +68,11 @@ describe('MainPage', () => {
 
   test('After click on card modal opens', async () => {
     const store = setupStore()
-    store.dispatch(addCity(initialCity))
+    store.dispatch(addCity('London'))
 
     renderWithProviders(<MainPage />, { store })
 
-    const card = await waitFor(() => screen.findByTestId('cityWeatherCard'))
+    const card = await screen.findByTestId('cityWeatherCard')
 
     fireEvent.click(card)
 

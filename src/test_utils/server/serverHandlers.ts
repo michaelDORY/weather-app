@@ -1,5 +1,5 @@
 import { rest } from 'msw'
-import { FetchedCityWeather } from '../../types'
+import { FetchedCityWeather, FetchedHourlyForecast } from '../../types'
 
 const handlers = [
   rest.get(`http://api.openweathermap.org/data/2.5/weather`, (req, res, ctx) => {
@@ -25,6 +25,157 @@ const handlers = [
           name: 'Kharkiv',
           main: { temp: 0, temp_max: 12, temp_min: -3, feels_like: 0, humidity: 12 },
           id: 2,
+        },
+      ],
+    }
+    return res(ctx.json(mockApiResponse))
+  }),
+  rest.get(`http://api.openweathermap.org/data/2.5/forecast`, (req, res, ctx) => {
+    const mockApiResponse: FetchedHourlyForecast = {
+      list: [
+        {
+          main: {
+            temp: 30,
+            feels_like: 27.98,
+            temp_min: 28.75,
+            temp_max: 30.13,
+            humidity: 35,
+          },
+          weather: [
+            {
+              id: 803,
+              main: 'Clouds',
+              description: 'broken clouds',
+              icon: '04d',
+            },
+          ],
+          dt_txt: '2022-07-17 12:00:00',
+        },
+        {
+          main: {
+            temp: 28.75,
+            feels_like: 27.98,
+            temp_min: 28.75,
+            temp_max: 30.13,
+            humidity: 35,
+          },
+          weather: [
+            {
+              id: 803,
+              main: 'Clouds',
+              description: 'broken clouds',
+              icon: '04d',
+            },
+          ],
+          dt_txt: '2022-07-17 12:00:00',
+        },
+        {
+          main: {
+            temp: 28.75,
+            feels_like: 27.98,
+            temp_min: 28.75,
+            temp_max: 30.13,
+            humidity: 35,
+          },
+          weather: [
+            {
+              id: 803,
+              main: 'Clouds',
+              description: 'broken clouds',
+              icon: '04d',
+            },
+          ],
+          dt_txt: '2022-07-17 12:00:00',
+        },
+        {
+          main: {
+            temp: 28.75,
+            feels_like: 27.98,
+            temp_min: 28.75,
+            temp_max: 30.13,
+            humidity: 35,
+          },
+          weather: [
+            {
+              id: 803,
+              main: 'Clouds',
+              description: 'broken clouds',
+              icon: '04d',
+            },
+          ],
+          dt_txt: '2022-07-17 12:00:00',
+        },
+        {
+          main: {
+            temp: 28.75,
+            feels_like: 27.98,
+            temp_min: 28.75,
+            temp_max: 30.13,
+            humidity: 35,
+          },
+          weather: [
+            {
+              id: 803,
+              main: 'Clouds',
+              description: 'broken clouds',
+              icon: '04d',
+            },
+          ],
+          dt_txt: '2022-07-17 12:00:00',
+        },
+        {
+          main: {
+            temp: 28.75,
+            feels_like: 27.98,
+            temp_min: 28.75,
+            temp_max: 30.13,
+            humidity: 35,
+          },
+          weather: [
+            {
+              id: 803,
+              main: 'Clouds',
+              description: 'broken clouds',
+              icon: '04d',
+            },
+          ],
+          dt_txt: '2022-07-17 12:00:00',
+        },
+        {
+          main: {
+            temp: 28.75,
+            feels_like: 27.98,
+            temp_min: 28.75,
+            temp_max: 30.13,
+            humidity: 35,
+          },
+          weather: [
+            {
+              id: 803,
+              main: 'Clouds',
+              description: 'broken clouds',
+              icon: '04d',
+            },
+          ],
+          dt_txt: '2022-07-17 12:00:00',
+        },
+        {
+          main: {
+            temp: 28.75,
+            feels_like: 27.98,
+            temp_min: 28.75,
+            temp_max: 30.13,
+            humidity: 35,
+          },
+          weather: [
+            {
+              id: 803,
+              main: 'Clouds',
+              description: 'broken clouds',
+              icon: '04d',
+            },
+          ],
+          dt_txt: '2022-07-17 12:00:00',
         },
       ],
     }

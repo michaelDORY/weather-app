@@ -16,24 +16,28 @@ const HourlyChart = () => {
 
   if (isLoading) {
     return (
-      <Stack sx={{ width: '100%', height: '100%' }} justifyContent='center' alignItems='center'>
-        <Rings color={theme.palette.primary.main} ariaLabel='loading-indicator' />
-      </Stack>
+      <div data-testid='hourlyWeatherChartLoading'>
+        <Stack sx={{ width: '100%', height: '100%' }} justifyContent='center' alignItems='center'>
+          <Rings color={theme.palette.primary.main} ariaLabel='loading-indicator' />
+        </Stack>
+      </div>
     )
   }
 
   if (error) return <Typography sx={{ textAlight: 'center' }}>Can&apos;t load chart(</Typography>
 
   return (
-    <ResponsiveContainer height={200} minWidth={200}>
-      <BarChart data={hourlyForecast} margin={{ left: -30 }} height={200} width={300}>
-        <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='hours' />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey='temp' fill={theme.palette.secondary.main} />
-      </BarChart>
-    </ResponsiveContainer>
+    <div data-testid='hourlyWeatherChart'>
+      <ResponsiveContainer height={200} minWidth={200}>
+        <BarChart data={hourlyForecast} margin={{ left: -30 }} height={200} width={300}>
+          <CartesianGrid strokeDasharray='3 3' />
+          <XAxis dataKey='hours' />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey='temp' fill={theme.palette.secondary.main} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   )
 }
 

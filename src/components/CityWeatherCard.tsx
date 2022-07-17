@@ -10,10 +10,13 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import React, { FC, useEffect, memo, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { deleteCity, selectCity, updateCity } from '../redux/reducers/citiesSlice'
+import React, { FC, memo, useEffect } from 'react'
+import { addCityNameToLS } from '../helpers/localStorage'
+import { useAppDispatch } from '../hooks'
+import { clearShouldBeAdded, deleteCity, selectCity } from '../redux/reducers/citiesSlice'
+import { openSnackBar } from '../redux/reducers/globalSlice'
 import { useGetCityWeatherQuery } from '../redux/services/weather'
+import { SnackBarSeverity } from '../types'
 import DynamicSvgIcon from './ui/DynamicSvgIcon'
 
 interface Props {
@@ -23,24 +26,22 @@ interface Props {
 const CityWeatherCard: FC<Props> = memo((props: Props) => {
   const { cityName } = props
   const dispatch = useAppDispatch()
-  const { cities } = useAppSelector((state) => state.citiesReducer)
-  const isInitial = useRef(true)
-  const { data, isLoading, refetch } = useGetCityWeatherQuery(isInitial.current ? '' : cityName)
+  const { data: city, isLoading, error, refetch } = useGetCityWeatherQuery(cityName)
 
   useEffect(() => {
-    if (data) {
-      console.log('data')
-      const indexOfCity = cities.findIndex((item) => item.id === data.id)
-      if (indexOfCity !== -1) {
-        console.log('update')
-        updateCity(data)
-      }
+    if (city) {
+      addCityNameToLS(city.name)
     }
-  }, [data])
+  }, [city])
 
-  if (isLoading && !isInitial.current) return <div data-testid='loadingCityCard'></div>
+  if (isLoading) return <div data-testid='loadingCityCard'></div>
+  if (error) {
+    dispatch(clearShouldBeAdded())
+    dispatch(openSnackBar({ message: 'Incorrect name of city', severity: SnackBarSeverity.ERROR }))
+    return <></>
+  }
 
-  const { weather, main, name, id } = cities.find((item) => item.name === cityName)!
+  const { weather, main, name } = city!
   const iconName = weather[0].icon
 
   return (
@@ -54,9 +55,9 @@ const CityWeatherCard: FC<Props> = memo((props: Props) => {
     >
       <CardActionArea
         data-testid='cityWeatherCard'
-        onClick={(e) => {
-          e.stopPropagation()
-          dispatch(selectCity(id))
+        component='div'
+        onClick={() => {
+          dispatch(selectCity(city!))
         }}
       >
         <CardMedia
@@ -96,7 +97,7 @@ const CityWeatherCard: FC<Props> = memo((props: Props) => {
                 onMouseDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation()
-                  dispatch(deleteCity(id))
+                  dispatch(deleteCity(name))
                 }}
               >
                 <ClearIcon />
@@ -110,7 +111,7 @@ const CityWeatherCard: FC<Props> = memo((props: Props) => {
                 onClick={(event) => {
                   event.stopPropagation()
                   refetch()
-                  isInitial.current = false
+                  dispatch(openSnackBar({ message: 'Updated', severity: SnackBarSeverity.SUCCESS }))
                 }}
               >
                 <UpdateIcon />

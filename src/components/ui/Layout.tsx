@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import React, { FC, ReactNode } from 'react'
+import CustomSnackbar from '../CustomSnackbar'
 import Background from './Background'
 
 interface Props {
@@ -11,6 +12,7 @@ const Layout: FC<Props> = ({ children }) => {
     <Box sx={{ minHeight: '100vh' }}>
       <Background />
       {children}
+      <CustomSnackbar />
     </Box>
   )
 }

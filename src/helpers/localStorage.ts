@@ -1,23 +1,23 @@
-import { CITIES_IDS_KEY } from '../constrains'
+import { CITIES_NAMES_KEY } from '../constrains'
 
-export const addCityIdToLS = (value: string | number) => {
-  const string = localStorage.getItem(CITIES_IDS_KEY)
-  const object = string ? JSON.parse(string) : { ids: [] }
-  if (object.ids) {
-    if (!object.ids.includes(value)) {
-      object.ids.push(value)
+export const addCityNameToLS = (value: string) => {
+  const string = localStorage.getItem(CITIES_NAMES_KEY)
+  const object = string ? JSON.parse(string) : { names: [] }
+  if (object.names) {
+    if (!object.names.includes(value)) {
+      object.names.push(value)
     }
   }
-  localStorage.setItem(CITIES_IDS_KEY, JSON.stringify(object))
+  localStorage.setItem(CITIES_NAMES_KEY, JSON.stringify(object))
 }
 
-export const getCitiesIdsFromLS: () => (string | number)[] = () => {
-  const string = localStorage.getItem(CITIES_IDS_KEY)
-  return string ? JSON.parse(string).ids : []
+export const getCitiesNamesFromLS: () => string[] = () => {
+  const string = localStorage.getItem(CITIES_NAMES_KEY)
+  return string ? JSON.parse(string).names : []
 }
 
-export const deleteCityIdFromLS = (id: string | number) => {
-  const ids = getCitiesIdsFromLS()
-  const newIds = ids.filter((item) => item !== id)
-  localStorage.setItem(CITIES_IDS_KEY, JSON.stringify({ ids: newIds }))
+export const deleteCityNameFromLS = (id: string) => {
+  const names = getCitiesNamesFromLS()
+  const newNames = names.filter((item) => item !== id)
+  localStorage.setItem(CITIES_NAMES_KEY, JSON.stringify({ names: newNames }))
 }
