@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, fireEvent, waitFor } from '@testing-library/react'
 import MainPage from '../components/pages/MainPage'
-import { addCity } from '../redux/reducers/citiesSlice'
+import { addCity, CityState } from '../redux/reducers/citiesSlice'
 import { setupStore } from '../redux/store'
 import { renderWithProviders } from '../test_utils'
 import { server } from 'test_utils/server'
@@ -13,6 +13,13 @@ beforeAll(() => {
 afterAll(() => {
   server.close()
 })
+
+const initialCity: CityState = {
+  weather: [{ id: 12, main: 'Sun', icon: '10n', description: 'sun' }],
+  name: 'London',
+  main: { temp: 100, temp_max: 120, temp_min: 90, feels_like: 100, humidity: 52 },
+  id: 1,
+}
 
 describe('MainPage', () => {
   test('Contains form for adding city', () => {
@@ -55,14 +62,7 @@ describe('MainPage', () => {
 
   test('City is deleted after click on delete button', async () => {
     const store = setupStore()
-    store.dispatch(
-      addCity({
-        weather: [{ id: 12, main: 'Sun', icon: '10n', description: 'sun' }],
-        name: 'London',
-        main: { temp: 100, temp_max: 120, temp_min: 90, feels_like: 100, humidity: 52 },
-        id: 1,
-      }),
-    )
+    store.dispatch(addCity(initialCity))
 
     renderWithProviders(<MainPage />, { store })
 
@@ -81,14 +81,7 @@ describe('MainPage', () => {
 
   test('After click on card modal opens', async () => {
     const store = setupStore()
-    store.dispatch(
-      addCity({
-        weather: [{ id: 12, main: 'Sun', icon: '10n', description: 'sun' }],
-        name: 'London',
-        main: { temp: 100, temp_max: 120, temp_min: 90, feels_like: 100, humidity: 52 },
-        id: 1,
-      }),
-    )
+    store.dispatch(addCity(initialCity))
 
     renderWithProviders(<MainPage />, { store })
 

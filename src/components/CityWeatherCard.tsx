@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import React, { FC, useEffect, useState, memo } from 'react'
+import React, { FC, useEffect, memo, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { deleteCity, selectCity, updateCity } from '../redux/reducers/citiesSlice'
 import { useGetCityWeatherQuery } from '../redux/services/weather'
@@ -24,19 +24,21 @@ const CityWeatherCard: FC<Props> = memo((props: Props) => {
   const { cityName } = props
   const dispatch = useAppDispatch()
   const { cities } = useAppSelector((state) => state.citiesReducer)
-  const [isInitial, setIsInitial] = useState(true)
-  const { data, isLoading, refetch } = useGetCityWeatherQuery(isInitial ? '' : cityName)
+  const isInitial = useRef(true)
+  const { data, isLoading, refetch } = useGetCityWeatherQuery(isInitial.current ? '' : cityName)
 
   useEffect(() => {
     if (data) {
+      console.log('data')
       const indexOfCity = cities.findIndex((item) => item.id === data.id)
       if (indexOfCity !== -1) {
+        console.log('update')
         updateCity(data)
       }
     }
   }, [data])
 
-  if (isLoading) return <div data-testid='loadingCityCard'></div>
+  if (isLoading && !isInitial.current) return <div data-testid='loadingCityCard'></div>
 
   const { weather, main, name, id } = cities.find((item) => item.name === cityName)!
   const iconName = weather[0].icon
@@ -100,14 +102,15 @@ const CityWeatherCard: FC<Props> = memo((props: Props) => {
                 <ClearIcon />
               </Fab>
               <Fab
+                data-testid='updateCityButton'
                 color='primary'
                 size='small'
                 aria-label='update'
                 onMouseDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                   event.stopPropagation()
-                  setIsInitial(false)
                   refetch()
+                  isInitial.current = false
                 }}
               >
                 <UpdateIcon />
