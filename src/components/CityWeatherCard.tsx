@@ -9,11 +9,13 @@ import {
   Fab,
   Stack,
   Typography,
+  useTheme,
 } from '@mui/material'
 import React, { FC, memo, useEffect } from 'react'
+import { Rings } from 'react-loader-spinner'
 import { addCityNameToLS } from '../helpers/localStorage'
-import { useAppDispatch } from '../hooks'
-import { clearShouldBeAdded, deleteCity, selectCity } from '../redux/reducers/citiesSlice'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { addCity, clearShouldBeAdded, deleteCity, selectCity } from '../redux/reducers/citiesSlice'
 import { openSnackBar } from '../redux/reducers/globalSlice'
 import { useGetCityWeatherQuery } from '../redux/services/weather'
 import { SnackBarSeverity } from '../types'
@@ -25,16 +27,25 @@ interface Props {
 
 const CityWeatherCard: FC<Props> = memo((props: Props) => {
   const { cityName } = props
+  const theme = useTheme()
   const dispatch = useAppDispatch()
+  const { shouldBeAdded } = useAppSelector((state) => state.citiesReducer)
   const { data: city, isLoading, error, refetch } = useGetCityWeatherQuery(cityName)
 
   useEffect(() => {
     if (city) {
       addCityNameToLS(city.name)
+      dispatch(addCity(city.name))
+      shouldBeAdded === cityName && dispatch(clearShouldBeAdded())
     }
   }, [city])
 
-  if (isLoading) return <div data-testid='loadingCityCard'></div>
+  if (isLoading)
+    return (
+      <Stack justifyContent='center' alignItems='center' data-testid='loadingCityCard'>
+        <Rings color={theme.palette.primary.main} ariaLabel='loading-indicator' />
+      </Stack>
+    )
   if (error) {
     dispatch(clearShouldBeAdded())
     dispatch(openSnackBar({ message: 'Incorrect name of city', severity: SnackBarSeverity.ERROR }))
