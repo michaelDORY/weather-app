@@ -11,7 +11,7 @@ const AddCityForm: FC = memo(() => {
 
   useEffect(() => {
     if (city) {
-      dispatch(setShouldBeAdded(city))
+      dispatch(setShouldBeAdded(city.trim()))
     }
   }, [city])
 
